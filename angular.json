@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/csr-and-ssr-practice",
+            "outputPath": "dist/CSR-and-SSR-Practice/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -97,6 +97,61 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/CSR-and-SSR-Practice/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "CSR-and-SSR-Practice:build:development",
+              "serverTarget": "CSR-and-SSR-Practice:server:development"
+            },
+            "production": {
+              "browserTarget": "CSR-and-SSR-Practice:build:production",
+              "serverTarget": "CSR-and-SSR-Practice:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "CSR-and-SSR-Practice:build:production",
+              "serverTarget": "CSR-and-SSR-Practice:server:production"
+            },
+            "development": {
+              "browserTarget": "CSR-and-SSR-Practice:build:development",
+              "serverTarget": "CSR-and-SSR-Practice:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
